@@ -1,0 +1,26 @@
+ #include<math.h>
+
+ #define BLU 5 //blue LED
+ #define RED 3 //red LED
+ #define YEL 6 //yellow LED
+ #define GRE 9 //green LED
+ #define MOT 11 //motor
+
+ float value = 0;
+
+ void setup()
+ {
+ analogWrite(MOT, 1.1*51); //モータに電圧 1.1 V を出力
+ }
+
+ void loop()
+ {
+ for(value; value>=0; value+=0.0022)
+ {
+ analogWrite(BLU, 255*abs(sin( value ) ) ); //π/4 ずつ位相をずらす
+ analogWrite(RED, 255*abs(sin( value+(3.14/4) ) ) );
+ analogWrite(YEL, 255*abs(sin( value+(3.14*2/4) ) ) );
+ analogWrite(GRE, 255*abs(sin( value+(3.14*3/4) ) ) );
+ }
+ delay(10);
+ }
