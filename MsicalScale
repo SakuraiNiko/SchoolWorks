@@ -1,0 +1,24 @@
+void setup() {
+ Serial.begin(9600);
+ pinMode(13,OUTPUT);
+}
+void loop() {
+int sensorValue=analogRead(A0);
+Serial.println(sensorValue);
+if(sensorValue<10){
+ noTone(13); //noise
+}else if(sensorValue<60){
+ tone(13,523.25,100); //C
+}else if(sensorValue<95){
+ tone(13,587.33,100); //D
+}else if(sensorValue<150){
+ tone(13,659.26,100); //E
+}else if(sensorValue<250){
+ tone(13,698.46,100); //F
+}else if(sensorValue<580){
+ tone(13,783.99,100); //G
+}else if(sensorValue>=580){
+ tone(13,880.00,100); //A
+}
+delay(1);
+}
