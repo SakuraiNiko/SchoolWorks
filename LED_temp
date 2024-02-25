@@ -1,0 +1,62 @@
+#include <LiquidCrystal.h>
+#include <math.h>
+
+const int redPin=6;
+const int greenPin=9;
+const int bluePin=10;
+
+int redValue=10;
+int greenValue=10;
+int blueValue=10;
+
+const float DIVIDER=10000;    //10kΩ
+const float T0=273.15;
+const float R0=27700.0;
+const float B=3435.0;
+
+LiquidCrystal lcd(12,11,5,4,3,2);
+
+float calTemp(float Rt)
+{
+  float T_bar=1/T0+1/B*exp(Rt/R0);
+  return T0-1.0/T_bar;
+}
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  pinMode(redPin , OUTPUT);
+  pinMode(greenPin , OUTPUT);
+  pinMode(bluePin , OUTPUT);
+
+}
+
+void loop() {
+float sensorValue=analogRead(A0);
+float Rt=DIVIDER*sensorValue/(1024.0-sensorValue);
+float temp=calTemp(Rt);
+
+char degree_symbol=(char)223;
+lcd.clear();
+lcd.setCursor(0,0);
+lcd.print(String(temp)+" "+degree_symbol+'C');
+
+delay(1000);
+
+if(temp>=30.0)
+{
+  digitalWrite(redPin, redValue);
+   digitalWrite(greenPin, LOW);
+    digitalWrite(bluePin, LOW);
+  }else if(temp>=25.0&&temp<30.0){
+    digitalWrite(greenPin, greenValue);
+    digitalWrite(redPin, LOW);
+    digitalWrite(bluePin, LOW);
+  }else if(temp<25.0){
+    digitalWrite(bluePin, blueValue);
+     digitalWrite(redPin, LOW);
+      digitalWrite(greenPin, LOW);
+    }
+
+
+}
