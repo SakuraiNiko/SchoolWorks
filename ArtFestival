@@ -1,0 +1,81 @@
+import processing.serial.*;
+import cc.arduino.*;
+import org.firmata.*;
+import ddf.minim.*;
+
+Arduino arduino;
+Minim minim;
+AudioPlayer music;
+AudioPlayer music2;
+AudioPlayer music3;
+AudioPlayer music4;
+/*
+int buttonPin=2;
+int buttonPin2=3;
+int buttonPin3=4;
+int buttonPin4=5;
+*/
+int buttonPin=10;
+int buttonPin2=11;
+int buttonPin3=12;
+int buttonPin4=13;
+
+int buttonState=0;
+int buttonState2=0;
+int buttonState3=0;
+int buttonState4=0;
+
+int n=0;
+void setup(){
+printArray(Arduino.list());
+arduino=new Arduino(this,Arduino.list()[0],57600);
+minim=new Minim(this);
+
+frameRate(1);
+
+music=minim.loadFile("OtosouzouDrums1.mp3");//あと3つ
+music2=minim.loadFile("OtosouzouDrums2.mp3");
+music3=minim.loadFile("OtosouzouDrums3.mp3");
+music4=minim.loadFile("OtosouzouDrums4.mp3");
+
+arduino.pinMode(buttonPin,Arduino.INPUT); //あと3つ
+arduino.pinMode(buttonPin2,Arduino.INPUT);
+arduino.pinMode(buttonPin3,Arduino.INPUT);
+arduino.pinMode(buttonPin4,Arduino.INPUT);
+}
+
+void draw(){
+buttonState=arduino.digitalRead(buttonPin);
+buttonState2=arduino.digitalRead(buttonPin2);
+buttonState3=arduino.digitalRead(buttonPin3);
+buttonState4=arduino.digitalRead(buttonPin4);
+
+if(buttonState==Arduino.HIGH){
+ // Minim minim=new Minim(this);
+ AudioSample
+ sample=minim.loadSample("OtosouzouDrums1.mp3");
+ sample.trigger();
+music.play();
+}
+if(buttonState2==Arduino.HIGH){
+  //Minim minim=new Minim(this);
+ AudioSample
+ sample=minim.loadSample("OtosouzouDrums2.mp3");
+ sample.trigger();
+music.play();
+}
+if(buttonState3==Arduino.HIGH){
+  //Minim minim=new Minim(this);
+ AudioSample
+ sample=minim.loadSample("OtosouzouDrums3.mp3");
+ sample.trigger();
+music.play();
+}
+if(buttonState4==Arduino.HIGH){
+//  Minim minim=new Minim(this);
+ AudioSample
+ sample=minim.loadSample("OtosouzouDrums4.mp3");
+ sample.trigger();
+music.play();
+}
+}
